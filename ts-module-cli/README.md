@@ -81,3 +81,11 @@ The following files will be created in src/modules/user:
       - user.route.ts
       - user.model.ts
       - user.interface.ts
+
+## Prerequisites
+
+This CLI tool is designed specifically for **TypeScript-based Express applications**. Ensure your project meets the following requirements:
+
+- TypeScript installed (`npm install typescript --save-dev`)
+- `tsconfig.json` configured in your project root
+- Express.js installed (`npm install express`)

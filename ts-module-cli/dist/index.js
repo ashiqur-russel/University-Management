@@ -9,7 +9,7 @@ const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 // Main CLI logic
 yargs(hideBin(process.argv))
     .scriptName("create") // Allows using "npx create" or "create" if globally installed
-    .command("module <module>", "Create a new module", (yargs) => {
+    .command(["module <module>", "m <module>"], "Create a new module", (yargs) => {
     return yargs.positional("module", {
         describe: "The name of the module",
         type: "string",

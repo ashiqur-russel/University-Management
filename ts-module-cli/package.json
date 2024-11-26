@@ -1,7 +1,20 @@
 {
   "name": "express-module-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
+  "keywords": [
+    "CLI",
+    "TypeScript",
+    "Express",
+    "Module Generator"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^4.0.0"
+  },
+  "author": "Mohammad Ashiqur Rahman",
   "description": "A CLI tool to create modules for TypeScript-based Express apps",
   "bin": {
     "create": "./dist/index.js"
@@ -20,6 +33,9 @@
     "@types/node": "^20.4.2",
     "@types/yargs": "^17.0.33",
     "typescript": "^5.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module",
   "main": "./dist/index.js"

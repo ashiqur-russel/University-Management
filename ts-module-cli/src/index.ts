@@ -14,7 +14,7 @@ const capitalize = (name: string): string =>
 yargs(hideBin(process.argv))
   .scriptName("create") // Allows using "npx create" or "create" if globally installed
   .command(
-    "module <module>",
+    ["module <module>", "m <module>"],
     "Create a new module",
     (yargs) => {
       return yargs.positional("module", {
