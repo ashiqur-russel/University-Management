@@ -2,7 +2,7 @@ const findAll = async (): Promise<string> => {
   return "hello world";
 };
 
-export const UserService = {
+export const StudentService = {
   findAll,
 };
           
