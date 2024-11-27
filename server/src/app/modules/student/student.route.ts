@@ -3,6 +3,8 @@ import { StudentController } from './student.controller';
 
 const router = Router();
 
-router.get('/', StudentController.findAll);
+router.get('/', StudentController.getAllStudents);
+router.get('/:studentId', StudentController.getSingleStudent);
+router.delete('/:studentId', StudentController.deleteStudent);
 
-export default router;
+export const StudentRoutes = router;
