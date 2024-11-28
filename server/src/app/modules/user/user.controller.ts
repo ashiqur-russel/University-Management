@@ -10,12 +10,17 @@ const createStudent = async (req: Request, res: Response) => {
     if (result) {
       res.status(201).json({
         success: true,
-        message: 'Student is created succesfully',
+        message: 'Student is created successfully',
         data: result,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'Student creation unsuccessful!',
       });
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: 'Student creation unsuccessful!',
       error,
