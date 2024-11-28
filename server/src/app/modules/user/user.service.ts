@@ -8,11 +8,11 @@ import bcrypt from 'bcrypt';
 const createStudent = async (studentData: TStudent, password: string) => {
   const userData: Partial<TUser> = {};
 
-  userData.password = password || (config.default_pass as string);
+  password = password || (config.default_pass as string);
   userData.id = '2024-01-01';
   userData.role = 'student';
 
-  await generateHashedPassword(userData.password);
+  userData.password = await generateHashedPassword(password);
 
   // create user
   const newUser = await User.create(userData);
