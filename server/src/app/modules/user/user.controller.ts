@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserService } from './user.service';
+import sendResponse from '../../utils/response';
 
 const createStudent = async (
   req: Request,
@@ -11,18 +12,12 @@ const createStudent = async (
 
     const result = await UserService.createStudent(studentData, password);
 
-    if (result) {
-      res.status(201).json({
-        success: true,
-        message: 'Student is created successfully',
-        data: result,
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'Student creation unsuccessful!',
-      });
-    }
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      data: result,
+      message: 'Student Created Successfully',
+    });
   } catch (error) {
     next(error);
   }
