@@ -3,7 +3,7 @@ import sendResponse from '../../utils/response';
 import catchAsync from '../../utils/catchAsync';
 
 const createAcademicSemester = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterService.createAcademicSemester();
+  const result = await AcademicSemesterService.createAcademicSemester(req.body);
 
   sendResponse(res, {
     success: true,
