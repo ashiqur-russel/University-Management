@@ -1,11 +1,15 @@
-import { Request, Response } from 'express';
 import { AcademicSemesterService } from './academic-semester.service';
+import sendResponse from '../../utils/response';
+import catchAsync from '../../utils/catchAsync';
 
-const findAll = async (req: Request, res: Response) => {
-  const data = await AcademicSemesterService.findAll();
-  res.json(data);
-};
+const createAcademicSemester = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterService.createAcademicSemester();
 
-export const AcademicSemesterController = {
-  findAll,
-};
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: result,
+    message: 'Academic Semester Created Successfully',
+  });
+});
+export const AcademicSemesterController = { createAcademicSemester };

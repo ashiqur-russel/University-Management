@@ -1,9 +1,11 @@
-import { Router } from "express";
-import { Academic-semesterController } from "./academic-semester.controller";
+import { Router } from 'express';
+import { AcademicSemesterController } from './academic-semester.controller';
 
 const router = Router();
 
-router.get("/", Academic-semesterController.findAll);
+router.post(
+  '/create-semester',
+  AcademicSemesterController.createAcademicSemester,
+);
 
 export default router;
-          

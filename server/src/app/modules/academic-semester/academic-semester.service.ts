@@ -1,7 +1,5 @@
-const findAll = async (): Promise<string> => {
-  return 'hello world';
-};
+const createAcademicSemester = async () => {};
 
 export const AcademicSemesterService = {
-  findAll,
+  createAcademicSemester,
 };
