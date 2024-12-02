@@ -1,4 +1,4 @@
-# express-module-cli
+# ts-mod-cli
 
 A CLI tool to generate modules for TypeScript-based Express applications.
 
