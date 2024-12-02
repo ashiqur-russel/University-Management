@@ -9,54 +9,37 @@ This project encompasses both front-end and back-end development to create a sea
 
 ## Features
 
-1. Authentication & Authorization
+ ### 1. Authentication & Authorization
 
-| Method   | Role     | Action                                      |
-| -------- | -------- | ------------------------------------------- |
-| `POST`   | Student  | Log in and log out securely.                |
-| `PATCH`  | Student  | Update password.                            |
-| `POST`   | Faculty  | Log in and log out securely.                |
-| `PATCH`  | Faculty  | Update password.                            |
-| `POST`   | Admin    | Log in and log out securely.                |
-| `PATCH`  | Admin    | Update password.                            |
+| **Role**    | **Feature**                                            |
+| ----------- | ------------------------------------------------------ |
+| **Student** | - Log in and log out securely. <br> - Update password. |
+| **Faculty** | - Log in and log out securely. <br> - Update password. |
+| **Admin**   | - Log in and log out securely. <br> - Update password. |
 
-2. Profile Management
+ ### 2. Profile Management
 
-| Method   | Role     | Action                                      |
-| -------- | -------- | ------------------------------------------- |
-| `GET`    | Student  | View personal profile.                      |
-| `PATCH`  | Student  | Update certain fields in the profile.       |
-| `GET`    | Faculty  | View personal profile.                      |
-| `PATCH`  | Faculty  | Update certain fields in the profile.       |
-| `GET`    | Admin    | View personal profile.                      |
-| `PATCH`  | Admin    | Update certain fields in the profile.       |
+| **Role**   | **Feature**                                           |
+|------------|-------------------------------------------------------|
+| **Student**| - Manage and update personal profile. <br> - Update certain fields. |
+| **Faculty**| - Manage and update personal profile. <br> - Update certain fields. |
+| **Admin**  | - Manage and update personal profile. <br> - Update certain fields. |
 
-3. Academic Process Management
+ ### 3. Academic Process Management
 
-| Method   | Role     | Action                                      |
-| -------- | -------- | ------------------------------------------- |
-| `POST`   | Student  | Enroll in courses for a specific semester.  |
-| `GET`    | Student  | View class schedule.                        |
-| `GET`    | Student  | View grades.                                |
-| `GET`    | Student  | View notice boards and events.              |
-| `PUT`    | Faculty  | Manage student grades.                      |
-| `GET`    | Faculty  | Access student personal and academic info.  |
-| `POST`   | Admin    | Manage academic semester.                   |
-| `POST`   | Admin    | Manage courses.                             |
-| `POST`   | Admin    | Manage sections.                            |
-| `POST`   | Admin    | Manage rooms.                               |
-| `POST`   | Admin    | Manage buildings.                           |
+| **Role**   | **Feature**                                           |
+|------------|-------------------------------------------------------|
+| **Student**| - Enroll in courses for a specific semester. <br> - View class schedule. <br> - View grades. <br> - View notice boards and events. |
+| **Faculty**| - Manage student grades. <br> - Access student personal and academic information. |
+| **Admin**  | - Manage academic semester. <br> - Manage courses. <br> - Manage sections. <br> - Manage rooms. <br> - Manage buildings. |
 
-4. User Management
+ ### 4. User Management
 
-| Method   | Role     | Action                                      |
-| -------- | -------- | ------------------------------------------- |
-| `POST`   | Admin    | Create a new student, faculty, or admin.    |
-| `GET`    | Admin    | Retrieve details of all users.              |
-| `PATCH`  | Admin    | Update details of a user.                   |
-| `DELETE` | Admin    | Delete a user account.                      |
-| `POST`   | Admin    | Block/unblock user accounts.                |
-| `PATCH`  | Admin    | Change user passwords.                      |
+| **Role**   | **Feature**                                           |
+|------------|-------------------------------------------------------|
+| **Student**| - N/A                                                  |
+| **Faculty**| - N/A                                                  |
+| **Admin**  | - Create, manage, and delete user accounts (students, faculty, admin). <br> - Block/unblock users. <br> - Change user passwords. |
 
 
 ## Data Model
