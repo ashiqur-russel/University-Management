@@ -1,12 +1,11 @@
-import { Request, Response } from "express";
-import { Academic-semesterService } from "./academic-semester.service";
+import { Request, Response } from 'express';
+import { AcademicSemesterService } from './academic-semester.service';
 
 const findAll = async (req: Request, res: Response) => {
-  const data = await Academic-semesterService.findAll();
+  const data = await AcademicSemesterService.findAll();
   res.json(data);
 };
 
-export const Academic-semesterController = {
+export const AcademicSemesterController = {
   findAll,
 };
-          
