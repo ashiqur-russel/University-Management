@@ -1,4 +1,5 @@
 import config from '../../config';
+import { AcademicSemester } from '../academic-semester/academic-semester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interface';
@@ -9,16 +10,22 @@ const createStudent = async (studentData: TStudent, password: string) => {
   const userData: Partial<TUser> = {};
 
   password = password || (config.default_pass as string);
-  userData.id = '2024-01-01';
-  userData.role = 'student';
 
+  userData.id = await generateStudentId(studentData);
+  userData.role = 'student';
   userData.password = await generateHashedPassword(password);
+
+  const isUserExist = await User.findOne({ id: userData.id });
+
+  if (isUserExist) {
+    throw new Error('User already exist with the id');
+  }
 
   // create user
   const newUser = await User.create(userData);
 
   //create student
-  if (Object.keys(newUser).length) {
+  if (!isUserExist && Object.keys(newUser).length) {
     studentData.id = newUser.id;
     studentData.user = newUser._id;
 
@@ -26,6 +33,44 @@ const createStudent = async (studentData: TStudent, password: string) => {
 
     const data = { ...newUser, ...newStudent };
     return data;
+  }
+};
+
+const generateStudentId = async (studentData: TStudent) => {
+  try {
+    const result = await AcademicSemester.findById(
+      studentData.admissionSemester,
+    );
+    if (!result || !result.code || !result.year) {
+      throw new Error('Invalid result or missing code/year.');
+    }
+    const currentId =
+      (await findLastStudentId()) || (0).toString().padStart(4, '0');
+    let incrementId = (Number(currentId) + 1).toString();
+
+    incrementId = incrementId.toString().padStart(4, '0');
+    const studentId = `${result?.year}-${result?.code}-${incrementId}`;
+
+    return studentId.toString();
+  } catch (error) {
+    console.log(error);
+    throw new Error('Error generating student id');
+  }
+};
+
+const findLastStudentId = async () => {
+  try {
+    const lastStudent = await User.findOne(
+      {
+        role: 'student',
+      },
+      { id: 1, _id: 0 },
+    ).lean();
+
+    return lastStudent?.id ? lastStudent.id.substring(8) : undefined;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Error fining student id');
   }
 };
 

@@ -15,7 +15,7 @@ A CLI tool to generate modules for TypeScript-based Express applications.
 Install the package globally for easy usage:
 
 ```bash
-npm install -g express-module-cli
+npm install -g ts-mod-cli
 ```
 
 ### 2. As a Development Dependency
@@ -53,25 +53,25 @@ create m user
 Without installation:
 
 ```bash
-npx express-module-cli module <module-name>
+npx ts-mod-cli module <module-name>
 ```
 
 For example:
 
 ```bash
-npx express-module-cli module user
+npx ts-mod-cli module user
 ```
 
 or,
 
 ```bash
-npx express-module-cli m user
+npx ts-mod-cli m user
 ```
 
 ## Example Output
 
 ```bash
-npx create-module-cli module user
+npx ts-mod-cli module user
 ```
 
 The following files will be created in src/modules/user:
@@ -89,3 +89,8 @@ This CLI tool is designed specifically for **TypeScript-based Express applicatio
 - TypeScript installed (`npm install typescript --save-dev`)
 - `tsconfig.json` configured in your project root
 - Express.js installed (`npm install express`)
+
+!! Important !!!
+
+If you use `express-module-cli` npm package its depricated and this version is the latest.
+https://www.npmjs.com/package/express-module-cli (Depricated)
