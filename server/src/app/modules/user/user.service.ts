@@ -65,7 +65,9 @@ const findLastStudentId = async () => {
         role: 'student',
       },
       { id: 1, _id: 0 },
-    ).lean();
+    )
+      .sort({ createdAt: -1 })
+      .lean();
 
     return lastStudent?.id ? lastStudent.id.substring(8) : undefined;
   } catch (error) {
