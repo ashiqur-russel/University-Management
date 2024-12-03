@@ -1,10 +1,10 @@
 import config from '../../config';
-import { AcademicSemester } from '../academic-semester/academic-semester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
+import { generateStudentId } from '../student/student.utils';
 import { TUser } from './user.interface';
 import { User } from './user.model';
-import bcrypt from 'bcrypt';
+import { generateHashedPassword } from './user.utils';
 
 const createStudent = async (studentData: TStudent, password: string) => {
   const userData: Partial<TUser> = {};
@@ -36,50 +36,6 @@ const createStudent = async (studentData: TStudent, password: string) => {
   }
 };
 
-const generateStudentId = async (studentData: TStudent) => {
-  try {
-    const result = await AcademicSemester.findById(
-      studentData.admissionSemester,
-    );
-    if (!result || !result.code || !result.year) {
-      throw new Error('Invalid result or missing code/year.');
-    }
-    const currentId =
-      (await findLastStudentId()) || (0).toString().padStart(4, '0');
-    let incrementId = (Number(currentId) + 1).toString();
-
-    incrementId = incrementId.toString().padStart(4, '0');
-    const studentId = `${result?.year}-${result?.code}-${incrementId}`;
-
-    return studentId.toString();
-  } catch (error) {
-    console.log(error);
-    throw new Error('Error generating student id');
-  }
-};
-
-const findLastStudentId = async () => {
-  try {
-    const lastStudent = await User.findOne(
-      {
-        role: 'student',
-      },
-      { id: 1, _id: 0 },
-    )
-      .sort({ createdAt: -1 })
-      .lean();
-
-    return lastStudent?.id ? lastStudent.id.substring(8) : undefined;
-  } catch (error) {
-    console.log(error);
-    throw new Error('Error fining student id');
-  }
-};
-
-const generateHashedPassword = async (password: string): Promise<string> => {
-  const hashPassword = await bcrypt.hash(password, Number(config.bcrypt_salt));
-  return hashPassword;
-};
 export const UserService = {
   createStudent,
 };
