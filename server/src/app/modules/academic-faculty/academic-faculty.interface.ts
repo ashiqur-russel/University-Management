@@ -1,1 +1,3 @@
-// academic-faculty interface
+export type TAcademicFaculty = {
+  name: string;
+};
