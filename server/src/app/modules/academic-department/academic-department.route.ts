@@ -1,9 +1,8 @@
-import { Router } from "express";
-import { Academic-departmentController } from "./academic-department.controller";
+import { Router } from 'express';
+import { AcademicDpartmentController } from './academic-department.controller';
 
 const router = Router();
 
-router.get("/", Academic-departmentController.findAll);
+router.get('/', AcademicDpartmentController.findAll);
 
 export default router;
-          
