@@ -9,7 +9,7 @@ router.get('/', academicFacultyController.getAllAcademicFaculties);
 router.get('/:facultyId', academicFacultyController.getSingleAcademicFaculty);
 
 router.post(
-  '/create-semester',
+  '/create-faculty',
   validateRequest(AcademicFacultyValidation.academicFacultyValidationSchema),
   academicFacultyController.createAcademicFaculty,
 );
