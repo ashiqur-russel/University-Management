@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { academicFacultyService } from './academic-faculty.service';
 import sendResponse from '../../utils/response';
 import httpStatus from 'http-status';
