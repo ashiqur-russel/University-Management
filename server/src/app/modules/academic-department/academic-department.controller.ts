@@ -1,15 +1,10 @@
-import { Request, Response } from 'express';
-import { AcademicDpartmentService } from './academic-department.service';
+import { AcademicDepartmentService } from './academic-department.service';
 import sendResponse from '../../utils/response';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-const findAll = async (req: Request, res: Response) => {
-  const data = await AcademicDpartmentService.findAll();
-  res.json(data);
-};
 
 const createAcademicDepartmemt = catchAsync(async (req, res) => {
-  const result = await AcademicDpartmentService.createAcademicDepartment(
+  const result = await AcademicDepartmentService.createAcademicDepartment(
     req.body,
   );
 
@@ -21,7 +16,48 @@ const createAcademicDepartmemt = catchAsync(async (req, res) => {
   });
 });
 
-export const AcademicDpartmentController = {
-  findAll,
+const getAllAcademicDepartments = catchAsync(async (req, res) => {
+  const result = await AcademicDepartmentService.getAllAcademicDepartments();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic departments are retrieved successfully',
+    data: result,
+  });
+});
+
+const getSingleAcademicDepartment = catchAsync(async (req, res) => {
+  const { departmentId } = req.params;
+  const result =
+    await AcademicDepartmentService.getSingleAcademicDepartment(departmentId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic department is retrieved succesfully',
+    data: result,
+  });
+});
+
+const updateAcademicDeartment = catchAsync(async (req, res) => {
+  const { departmentId } = req.params;
+  const result = await AcademicDepartmentService.updateAcademicDepartment(
+    departmentId,
+    req.body,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic department is updated succesfully',
+    data: result,
+  });
+});
+
+export const AcademicDepartmentController = {
   createAcademicDepartmemt,
+  getAllAcademicDepartments,
+  getSingleAcademicDepartment,
+  updateAcademicDeartment,
 };
