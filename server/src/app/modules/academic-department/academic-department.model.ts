@@ -18,6 +18,7 @@ const AcademicDepartemntSchema = new Schema<TAcademicDepartment>(
   },
   {
     timestamps: true,
+    collection: 'academicDepartments',
   },
 );
 
@@ -51,6 +52,6 @@ AcademicDepartemntSchema.pre('findOneAndUpdate', async function (next) {
 });
 
 export const AcademicDepartment = model(
-  'AcademicDepartemnt',
+  'AcademicDepartment',
   AcademicDepartemntSchema,
 );

@@ -1,4 +1,5 @@
 import config from '../../config';
+import AppError from '../../errors/appError';
 import { AcademicDepartment } from '../academic-department/academic-department.model';
 import { AcademicSemester } from '../academic-semester/academic-semester.model';
 import { TStudent } from '../student/student.interface';
@@ -20,7 +21,7 @@ const createStudent = async (studentData: TStudent, password: string) => {
   const isUserExist = await User.findOne({ id: userData.id });
 
   if (isUserExist) {
-    throw new Error('User already exist with the id');
+    throw new AppError('User already exist with the id', 409);
   }
 
   // create user
@@ -32,7 +33,7 @@ const createStudent = async (studentData: TStudent, password: string) => {
 
   if (!academicSemesterExists) {
     await User.deleteOne({ _id: newUser._id });
-    throw new Error('Invalid Academic Semester Entered');
+    throw new AppError('Invalid Academic Semester Entered', 403);
   }
 
   const academicDepartmentExists = await AcademicDepartment.findById({
@@ -41,7 +42,7 @@ const createStudent = async (studentData: TStudent, password: string) => {
 
   if (!academicDepartmentExists) {
     await User.deleteOne({ _id: newUser._id });
-    throw new Error('Invalid Academic Department Entered');
+    throw new AppError('Invalid Academic Department Entered', 403);
   }
 
   //create student

@@ -11,6 +11,7 @@ const AcademicFacultySchema = new Schema<TAcademicFaculty>(
   },
   {
     timestamps: true,
+    collection: 'academicFaculties',
   },
 );
 
