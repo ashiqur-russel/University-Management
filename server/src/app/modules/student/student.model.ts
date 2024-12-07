@@ -104,10 +104,20 @@ const studentSchema = new Schema<TStudent>(
       required: [true, 'Email is required'],
       unique: true,
     },
-    admissionSemester: { type: Schema.Types.ObjectId, required: false },
+
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+      required: true,
+    },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicDepartment',
+      required: true,
+    },
+
     contactNo: {
       type: String,
-      ref: 'AcademicSemester',
       required: [true, 'Contact number is required'],
     },
     emergencyContactNo: {
