@@ -1,4 +1,6 @@
 import config from '../../config';
+import { AcademicDepartment } from '../academic-department/academic-department.model';
+import { AcademicSemester } from '../academic-semester/academic-semester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { generateStudentId } from '../student/student.utils';
@@ -23,6 +25,24 @@ const createStudent = async (studentData: TStudent, password: string) => {
 
   // create user
   const newUser = await User.create(userData);
+
+  const academicSemesterExists = await AcademicSemester.findById({
+    _id: studentData.admissionSemester,
+  });
+
+  if (!academicSemesterExists) {
+    await User.deleteOne({ _id: newUser._id });
+    throw new Error('Invalid Academic Semester Entered');
+  }
+
+  const academicDepartmentExists = await AcademicDepartment.findById({
+    _id: studentData.academicDepartment,
+  });
+
+  if (!academicDepartmentExists) {
+    await User.deleteOne({ _id: newUser._id });
+    throw new Error('Invalid Academic Department Entered');
+  }
 
   //create student
   if (!isUserExist && Object.keys(newUser).length) {

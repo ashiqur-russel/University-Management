@@ -5,6 +5,8 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
+import { AcademicSemester } from '../academic-semester/academic-semester.model';
+import { AcademicDepartment } from '../academic-department/academic-department.model';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
