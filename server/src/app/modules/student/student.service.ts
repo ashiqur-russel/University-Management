@@ -3,6 +3,7 @@ import { Student } from './student.model';
 import mongoose from 'mongoose';
 import { User } from '../user/user.model';
 import httpStatus from 'http-status';
+import { TStudent } from './student.interface';
 
 const getAllStudentsFromDB = async () => {
   const result = await Student.find()
@@ -62,8 +63,29 @@ const deleteStudentFromDB = async (id: string) => {
   }
 };
 
+const updateStudentIntoDB = async (
+  studentId: string,
+  student: Partial<TStudent>,
+) => {
+  const { name, ...remainingData } = student;
+
+  const modifiedStudentData: Record<string, unknown> = { ...remainingData };
+
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedStudentData[`name.${key}`] = value;
+    }
+  }
+
+  await Student.findOneAndUpdate({ id: studentId }, modifiedStudentData, {
+    new: true,
+    runValidators: true,
+  });
+};
+
 export const StudentService = {
   getAllStudentsFromDB,
   getSingleStudentFromDB,
   deleteStudentFromDB,
+  updateStudentIntoDB,
 };
