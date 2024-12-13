@@ -57,7 +57,7 @@ const createStudent1 = async (studentData: TStudent, password: string) => {
     return data;
   }
 };
-const createStudent = async ( payload: TStudent,password: string) => {
+const createStudent = async (payload: TStudent, password: string) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
@@ -84,7 +84,7 @@ const createStudent = async ( payload: TStudent,password: string) => {
 
     //create a student
     if (!newUser.length) {
-      throw new AppError('Failed to create user',httpStatus.BAD_REQUEST);
+      throw new AppError('Failed to create user', httpStatus.BAD_REQUEST);
     }
     // set id , _id as user
     payload.id = newUser[0].id;
@@ -95,7 +95,7 @@ const createStudent = async ( payload: TStudent,password: string) => {
     const newStudent = await Student.create([payload], { session });
 
     if (!newStudent.length) {
-      throw new AppError( 'Failed to create student',httpStatus.BAD_REQUEST);
+      throw new AppError('Failed to create student', httpStatus.BAD_REQUEST);
     }
 
     await session.commitTransaction();
