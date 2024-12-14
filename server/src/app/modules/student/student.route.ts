@@ -8,6 +8,10 @@ const router = Router();
 router.get('/', StudentController.getAllStudents);
 router.get('/:studentId', StudentController.getSingleStudent);
 router.delete('/:studentId', StudentController.deleteStudent);
-router.patch('/:studentId', validateRequest(updateStudentValidationSchema), StudentController.updateStudent);
+router.patch(
+  '/:studentId',
+  validateRequest(updateStudentValidationSchema),
+  StudentController.updateStudent,
+);
 
 export const StudentRoutes = router;
