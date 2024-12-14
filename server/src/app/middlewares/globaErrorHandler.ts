@@ -9,6 +9,8 @@ import config from '../config';
 import handleZodError from '../errors/zodError';
 import handleMongooseValidationError from '../errors/validationError';
 import handleCastError from '../errors/castError';
+import handleDuplicateError from '../errors/duplicateError';
+import AppError from '../errors/appError';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || 500;
@@ -44,7 +46,35 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
+
+  }else if (err?.code === 11000) {
+
+    const simplifiedError = handleDuplicateError(err);
+
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
+
+  } else if (err instanceof AppError) {
+
+    statusCode = err?.statusCode;
+    message = err.message;
+    errorSources = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
     
+  } else if (err instanceof Error) {
+
+    message = err.message;
+    errorSources = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
   }
 
   res.status(statusCode).json({
