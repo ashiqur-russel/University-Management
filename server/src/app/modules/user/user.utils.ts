@@ -45,7 +45,6 @@ export const generateFacultyId = async () => {
   return incrementId;
 };
 
-
 // Admin ID
 export const findLastAdminId = async () => {
   const lastAdmin = await User.findOne(
