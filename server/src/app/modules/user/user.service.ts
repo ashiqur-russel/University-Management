@@ -8,7 +8,11 @@ import { Student } from '../student/student.model';
 import { generateStudentId } from '../student/student.utils';
 import { TUser } from './user.interface';
 import { User } from './user.model';
-import { generateAdminId, generateFacultyId, generateHashedPassword } from './user.utils';
+import {
+  generateAdminId,
+  generateFacultyId,
+  generateHashedPassword,
+} from './user.utils';
 import { TFaculty } from '../Faculty/faculty.interface';
 import { Faculty } from '../Faculty/faculty.model';
 import { Admin } from '../Admin/admin.model';
@@ -186,7 +190,7 @@ const createAdmin = async (password: string, payload: TFaculty) => {
     userData.id = await generateAdminId();
 
     // create a user (transaction-1)
-    const newUser = await User.create([userData], { session }); 
+    const newUser = await User.create([userData], { session });
 
     //create a admin
     if (!newUser.length) {
@@ -200,7 +204,7 @@ const createAdmin = async (password: string, payload: TFaculty) => {
     const newAdmin = await Admin.create([payload], { session });
 
     if (!newAdmin.length) {
-      throw new AppError( 'Failed to create admin',httpStatus.BAD_REQUEST);
+      throw new AppError('Failed to create admin', httpStatus.BAD_REQUEST);
     }
 
     await session.commitTransaction();
@@ -217,5 +221,5 @@ const createAdmin = async (password: string, payload: TFaculty) => {
 export const UserService = {
   createStudent,
   createFaculty,
-  createAdmin
+  createAdmin,
 };
