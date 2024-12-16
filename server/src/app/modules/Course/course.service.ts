@@ -83,11 +83,32 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
     );
 
     if (!deletedPreRequisiteCourses) {
-      throw new AppError('Failed to update course!', httpStatus.BAD_REQUEST);
+      throw new AppError(
+        'Failed to remove/update course!',
+        httpStatus.BAD_REQUEST,
+      );
     }
-  }
 
-  return updatedBasicCourseInfo;
+    const newPreRequisiteCourses = preRequisiteCourses?.filter(
+      (el) => el.course && !el.isDeleted,
+    );
+
+    const addedPreRequisiteCourses = await Course.findByIdAndUpdate(id, {
+      $addToSet: { preRequisiteCourses: { $each: newPreRequisiteCourses } },
+    });
+
+    if (!addedPreRequisiteCourses) {
+      throw new AppError(
+        'Failed to add/update course!',
+        httpStatus.BAD_REQUEST,
+      );
+    }
+
+    const result = await Course.find({ _id: id }).populate(
+      'preRequisiteCourses.course',
+    );
+    return result;
+  }
 };
 
 export const CourseServices = {
