@@ -13,9 +13,9 @@ import {
   generateFacultyId,
   generateHashedPassword,
 } from './user.utils';
-import { TFaculty } from '../Faculty/faculty.interface';
-import { Faculty } from '../Faculty/faculty.model';
-import { Admin } from '../Admin/admin.model';
+import { TFaculty } from '../faculty/faculty.interface';
+import { Faculty } from '../faculty/faculty.model';
+import { Admin } from '../admin/admin.model';
 
 const createStudent1 = async (studentData: TStudent, password: string) => {
   const userData: Partial<TUser> = {};

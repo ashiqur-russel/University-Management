@@ -4,8 +4,8 @@ import { StudentRoutes } from '../app/modules/student/student.route';
 import { AcademicSemesterRoutes } from '../app/modules/academic-semester/academic-semester.route';
 import { AcademicFacultyRoutes } from '../app/modules/academic-faculty/academic-faculty.route';
 import { AcadmicDepartmentRoutes } from '../app/modules/academic-department/academic-department.route';
-import { FacultyRoutes } from '../app/modules/Faculty/faculty.route';
-import { CourseRoutes } from '../app/modules/Course/course.route';
+import { FacultyRoutes } from '../app/modules/faculty/faculty.route';
+import { CourseRoutes } from '../app/modules/course/course.route';
 
 const router = Router();
 
