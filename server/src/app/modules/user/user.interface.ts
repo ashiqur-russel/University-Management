@@ -10,7 +10,6 @@ export interface IUser {
   isDeleted?: boolean;
 }
 
-
 export interface UserModel extends Model<IUser> {
   isUserExistsByCustomId(id: string): Promise<IUser>;
   isUserBlocked(id: string): Promise<string>;

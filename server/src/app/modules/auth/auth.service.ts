@@ -5,7 +5,7 @@ import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 import config from '../../config';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const loginUser = async (payload: TLoginUser) => {
   const { id, password } = payload;
@@ -34,7 +34,7 @@ const loginUser = async (payload: TLoginUser) => {
     const jwtPayload = { userId: user.id, role: user.role };
 
     const accessToken = jwt.sign(jwtPayload, config.jwt_secret as string, {
-      expiresIn: '1h',
+      expiresIn: '24h',
     });
     return { accessToken, needsPasswordChange: user?.needsPasswordChange };
   } else {
@@ -42,4 +42,9 @@ const loginUser = async (payload: TLoginUser) => {
   }
 };
 
-export const AuthServices = { loginUser };
+const changePassword = async (
+  userData: JwtPayload,
+  payload: { oldPassword: string; newPassword: string },
+) => {};
+
+export const AuthServices = { loginUser, changePassword };

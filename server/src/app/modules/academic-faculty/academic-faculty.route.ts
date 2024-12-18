@@ -8,11 +8,11 @@ import { Faculty } from '../faculty/faculty.model';
 
 const router = Router();
 
-router.get('/', AuthGuard('admin'), academicFacultyController.getAllAcademicFaculties);
-router.get('/:facultyId',AuthGuard('admin'), academicFacultyController.getSingleAcademicFaculty);
+router.get('/', academicFacultyController.getAllAcademicFaculties);
+router.get('/:facultyId', academicFacultyController.getSingleAcademicFaculty);
 
 router.post(
-  '/create-faculty',AuthGuard('admin'),
+  '/create-faculty',
   validateRequest(AcademicFacultyValidation.academicFacultyValidationSchema),
   academicFacultyController.createAcademicFaculty,
 );
@@ -21,7 +21,7 @@ router.patch(
   '/:facultyId',
   validateRequest(
     AcademicFacultyValidation.updateAcademicFacultyValidationSchema,
-  ),AuthGuard('admin'),
+  ),
   academicFacultyController.updateAcademicFaculty,
 );
 

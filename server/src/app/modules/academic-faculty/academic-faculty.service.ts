@@ -1,3 +1,4 @@
+import { User } from '../user/user.model';
 import { TAcademicFaculty } from './academic-faculty.interface';
 import { AcademicFaculty } from './academic-faculty.model';
 
