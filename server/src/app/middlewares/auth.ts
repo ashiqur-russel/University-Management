@@ -21,7 +21,7 @@ const AuthGuard = (...requiredRoles: TUserRole[]) => {
       config.jwt_secret as string,
     ) as JwtPayload;
 
-    const { userId, role } = decodedToken;
+    const { userId, role, iat } = decodedToken;
 
     // checking if the user is exist
     const user = await User.isUserExistsByCustomId(userId);
@@ -44,6 +44,18 @@ const AuthGuard = (...requiredRoles: TUserRole[]) => {
       throw new AppError('This user is blocked ! !', httpStatus.FORBIDDEN);
     }
 
+    //Check token is issued before password change
+    if (
+      user.passwordChangedAt &&
+      User.isJWTIssuedBeforePasswordChanged(
+        user.passwordChangedAt,
+        iat as number,
+      )
+    ) {
+      throw new AppError('You are not authorized !', httpStatus.UNAUTHORIZED);
+    }
+
+    // Check if the user has the required role
     if (requiredRoles && requiredRoles.includes(role)) {
       req.user = decodedToken;
       next();
