@@ -5,11 +5,12 @@ import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import jwt from 'jsonwebtoken';
 
 const loginUser = async (payload: TLoginUser) => {
   const { id, password } = payload;
 
-  const user =  await User.isUserExistsByCustomId(id)
+  const user = await User.isUserExistsByCustomId(id);
 
   if (!user) {
     throw new AppError('User not found!', httpStatus.NOT_FOUND);
@@ -29,10 +30,16 @@ const loginUser = async (payload: TLoginUser) => {
     );
   }
 
-    if (await User.isPasswordMatched(password, user.password)) {
-      return user;
-    } else {
-      throw new AppError('Wrong password!', httpStatus.FORBIDDEN);
-    }
+  if (await User.isPasswordMatched(password, user.password)) {
+    const jwtPayload = { userId: user.id, role: user.role };
+
+    const accessToken = jwt.sign(jwtPayload, config.jwt_secret as string, {
+      expiresIn: '1h',
+    });
+    return { accessToken, needsPasswordChange: user?.needsPasswordChange };
+  } else {
+    throw new AppError('Wrong password!', httpStatus.FORBIDDEN);
+  }
 };
+
 export const AuthServices = { loginUser };
