@@ -29,7 +29,7 @@ const AuthGuard = (...requiredRoles: TUserRole[]) => {
     if (!user) {
       throw new AppError('This user is not found !', httpStatus.NOT_FOUND);
     }
-    
+
     // checking if the user is already deleted
     const isDeleted = user?.isDeleted;
 
@@ -45,6 +45,7 @@ const AuthGuard = (...requiredRoles: TUserRole[]) => {
     }
 
     if (requiredRoles && requiredRoles.includes(role)) {
+      req.user = decodedToken;
       next();
     } else {
       throw new AppError(

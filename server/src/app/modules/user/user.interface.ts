@@ -8,6 +8,7 @@ export interface IUser {
   role: 'admin' | 'student' | 'faculty';
   status: 'in-progress' | 'blocked';
   isDeleted?: boolean;
+  passwordChangedAt?: Date;
 }
 
 export interface UserModel extends Model<IUser> {
