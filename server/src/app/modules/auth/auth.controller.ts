@@ -4,7 +4,6 @@ import { AuthServices } from './auth.service';
 import httpStatus from 'http-status';
 
 const loginUser = catchAsync(async (req, res) => {
-  console.log(req.body);
   const result = await AuthServices.loginUser(req.body);
 
   sendResponse(res, {

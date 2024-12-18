@@ -9,36 +9,30 @@ import config from '../../config';
 const loginUser = async (payload: TLoginUser) => {
   const { id, password } = payload;
 
-  const user = await User.findOne({ id });
+  const user =  await User.isUserExistsByCustomId(id)
 
   if (!user) {
     throw new AppError('User not found!', httpStatus.NOT_FOUND);
   }
 
-  const isUserDeleted = user.isDeleted;
-
-  if (isUserDeleted) {
+  if (await User.isUserDeleted(id)) {
     throw new AppError(
       'This user is deleted! Please contact with admin!',
       httpStatus.NOT_FOUND,
     );
   }
 
-  const isUserBlocked = user.status;
-
-  if (isUserBlocked === 'blocked') {
+  if ((await User.isUserBlocked(id)) === 'blocked') {
     throw new AppError(
       'Your profile is blocked! Please contact with admin!',
       httpStatus.NOT_FOUND,
     );
   }
 
-  const isPasswordMatched = await bcrypt.compare(password, user.password);
-
-  if (isPasswordMatched) {
-    return user;
-  } else {
-    throw new AppError('Wrong password!', httpStatus.BAD_REQUEST);
-  }
+    if (await User.isPasswordMatched(password, user.password)) {
+      return user;
+    } else {
+      throw new AppError('Wrong password!', httpStatus.FORBIDDEN);
+    }
 };
 export const AuthServices = { loginUser };
