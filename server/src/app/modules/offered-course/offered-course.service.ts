@@ -79,7 +79,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   // check if the department is belong to the  faculty
   const isDepartmentBelongToFaculty = await AcademicDepartment.findOne({
     _id: academicDepartment,
-    faculty:academicFaculty,
+    faculty: academicFaculty,
   });
 
   if (!isDepartmentBelongToFaculty) {
@@ -91,12 +91,11 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
 
   // check if the same offered course same section in same registered semester exists
 
-  const isDuplicateCourseInSemesterSection =
-    await OfferedCourse.findOne({
-      semesterRegistration,
-      course,
-      section,
-    });
+  const isDuplicateCourseInSemesterSection = await OfferedCourse.findOne({
+    semesterRegistration,
+    course,
+    section,
+  });
 
   if (isDuplicateCourseInSemesterSection) {
     throw new AppError(
