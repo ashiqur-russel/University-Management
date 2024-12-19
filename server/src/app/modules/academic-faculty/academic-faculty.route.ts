@@ -5,10 +5,15 @@ import { AcademicFacultyValidation } from './academic-faculty.validation';
 import Auth from '../../middlewares/auth';
 import AuthGuard from '../../middlewares/auth';
 import { Faculty } from '../faculty/faculty.model';
+import { USER_ROLE } from '../user/user.constant';
 
 const router = Router();
 
-router.get('/', academicFacultyController.getAllAcademicFaculties);
+router.get(
+  '/',
+  AuthGuard(USER_ROLE.admin, USER_ROLE.faculty),
+  academicFacultyController.getAllAcademicFaculties,
+);
 router.get('/:facultyId', academicFacultyController.getSingleAcademicFaculty);
 
 router.post(

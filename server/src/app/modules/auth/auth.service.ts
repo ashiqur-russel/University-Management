@@ -6,6 +6,7 @@ import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { createToken } from './auth.utils';
 
 const loginUser = async (payload: TLoginUser) => {
   const { id, password } = payload;
@@ -33,10 +34,23 @@ const loginUser = async (payload: TLoginUser) => {
   if (await User.isPasswordMatched(password, user.password)) {
     const jwtPayload = { userId: user.id, role: user.role };
 
-    const accessToken = jwt.sign(jwtPayload, config.jwt_secret as string, {
-      expiresIn: '24h',
-    });
-    return { accessToken, needsPasswordChange: user?.needsPasswordChange };
+    const accessToken = createToken(
+      jwtPayload,
+      config.jwt_access_secret as string,
+      config.jwt_access_secret_expires as string,
+    );
+
+    const refreshToken = createToken(
+      jwtPayload,
+      config.jwt_refresh_secret as string,
+      config.jwt_refresh_secret_expires as string,
+    );
+
+    return {
+      accessToken,
+      refreshToken,
+      needsPasswordChange: user?.needsPasswordChange,
+    };
   } else {
     throw new AppError('Wrong password!', httpStatus.FORBIDDEN);
   }
@@ -87,4 +101,13 @@ const changePassword = async (
   );
 };
 
-export const AuthServices = { loginUser, changePassword };
+const refreshToken = async (token: string) => {
+  const decoded = jwt.verify(
+    token,
+    config.jwt_refresh_secret as string,
+  ) as JwtPayload;
+
+  const { userId, iat } = decoded;
+};
+
+export const AuthServices = { loginUser, changePassword, refreshToken };
