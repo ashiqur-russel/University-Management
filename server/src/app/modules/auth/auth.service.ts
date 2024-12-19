@@ -108,6 +108,49 @@ const refreshToken = async (token: string) => {
   ) as JwtPayload;
 
   const { userId, iat } = decoded;
+
+  const user = await User.isUserExistsByCustomId(userId);
+
+  if (!user) {
+    throw new AppError('User not found!', httpStatus.NOT_FOUND);
+  }
+
+  if (await User.isUserDeleted(userId)) {
+    throw new AppError(
+      'This user is deleted! Please contact with admin!',
+      httpStatus.NOT_FOUND,
+    );
+  }
+
+  if ((await User.isUserBlocked(userId)) === 'blocked') {
+    throw new AppError(
+      'Your profile is blocked! Please contact with admin!',
+      httpStatus.NOT_FOUND,
+    );
+  }
+
+  if (
+    user.passwordChangedAt &&
+    User.isJWTIssuedBeforePasswordChanged(user.passwordChangedAt, iat as number)
+  ) {
+    throw new AppError('You are not authorized !',httpStatus.UNAUTHORIZED, );
+  }
+
+  const jwtPayload = {
+    userId: user.id,
+    role: user.role,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_secret_expires as string,
+  );
+
+  return {
+    accessToken,
+  };
+
 };
 
 export const AuthServices = { loginUser, changePassword, refreshToken };

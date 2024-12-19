@@ -9,16 +9,6 @@ const userValidationSchema = z.object({
     .optional(),
 });
 
-const changePasswordValidationSchema = z.object({
-  body: z.object({
-    oldPassword: z.string({
-      required_error: 'Old password is required',
-    }),
-    newPassword: z.string({ required_error: 'Password is required' }),
-  }),
-});
-
 export const UserValidation = {
   userValidationSchema,
-  changePasswordValidationSchema,
 };
