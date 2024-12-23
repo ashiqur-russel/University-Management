@@ -75,7 +75,6 @@ const createStudent = async (payload: TStudent, password: string) => {
   userData.role = 'student';
   userData.email = payload.email;
 
-
   // find academic semester info
   const admissionSemester = await AcademicSemester.findById(
     payload.admissionSemester,

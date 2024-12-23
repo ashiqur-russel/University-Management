@@ -14,5 +14,6 @@ export default {
   bcrypt_salt_rounds: process.env.SALT,
   default_pass: process.env.DEFAULT_PASS,
   email_sender: process.env.EMAIL_SENDER,
-  email_pass: process.env.EMAIL_APP_PASSWORD
+  email_pass: process.env.EMAIL_APP_PASSWORD,
+  reset_password_ui_link: process.env.RESET_PASS_UI_LINK,
 };

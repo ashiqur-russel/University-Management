@@ -1,6 +1,5 @@
- export const generateResetEmailTemplate = (resetLink:string) => {
-    return (
-        `
+export const generateResetEmailTemplate = (resetLink: string) => {
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,8 +81,5 @@
     </div>
 </body>
 </html>
-`
-    )
- }
-
-
+`;
+};
