@@ -18,6 +18,7 @@ import { Faculty } from '../faculty/faculty.model';
 import { Admin } from '../admin/admin.model';
 import { USER_ROLE } from './user.constant';
 import httpStatus from 'http-status';
+import { sendImageToCloudinary } from '../../utils/saveImageToCloud';
 
 const createStudent1 = async (studentData: TStudent, password: string) => {
   const userData: Partial<IUser> = {};
@@ -88,6 +89,10 @@ const createStudent = async (payload: TStudent, password: string) => {
     session.startTransaction();
     //set  generated id
     userData.id = await generateStudentId(payload);
+
+    //send image to cloudinary
+
+    sendImageToCloudinary()
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session }); // array

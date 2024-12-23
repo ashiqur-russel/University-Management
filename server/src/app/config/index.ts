@@ -16,4 +16,7 @@ export default {
   email_sender: process.env.EMAIL_SENDER,
   email_pass: process.env.EMAIL_APP_PASSWORD,
   reset_password_ui_link: process.env.RESET_PASS_UI_LINK,
+  cloudinary_name :process.env.CLOUDINARY_CLOUD_NAME,
+  cloudinary_api_key :process.env.CLOUDINARY_API_KEY,
+  cloudinary_api_secret :process.env.CLOUDINARY_API_SECRET,
 };
