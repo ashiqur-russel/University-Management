@@ -14,16 +14,22 @@ router.get(
   AuthGuard(USER_ROLE.admin, USER_ROLE.faculty),
   academicFacultyController.getAllAcademicFaculties,
 );
-router.get('/:facultyId', academicFacultyController.getSingleAcademicFaculty);
+router.get(
+  '/:facultyId',
+  AuthGuard(USER_ROLE.admin, USER_ROLE.faculty),
+  academicFacultyController.getSingleAcademicFaculty,
+);
 
 router.post(
-  '/create-faculty',
+  '/create-academic-faculty',
+  AuthGuard(USER_ROLE.admin),
   validateRequest(AcademicFacultyValidation.academicFacultyValidationSchema),
   academicFacultyController.createAcademicFaculty,
 );
 
 router.patch(
   '/:facultyId',
+  AuthGuard(USER_ROLE.admin),
   validateRequest(
     AcademicFacultyValidation.updateAcademicFacultyValidationSchema,
   ),

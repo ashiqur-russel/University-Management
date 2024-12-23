@@ -16,6 +16,8 @@ import {
 import { TFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { Admin } from '../admin/admin.model';
+import { USER_ROLE } from './user.constant';
+import httpStatus from 'http-status';
 
 const createStudent1 = async (studentData: TStudent, password: string) => {
   const userData: Partial<IUser> = {};
@@ -221,8 +223,21 @@ const createAdmin = async (password: string, payload: TFaculty) => {
   }
 };
 
+const getMe = async (id: string, role: string) => {
+  if (role === USER_ROLE.student) {
+    return await Student.findOne({ id });
+  } else if (role === USER_ROLE.faculty) {
+    return await Faculty.findOne({ id });
+  } else if (role === USER_ROLE.admin) {
+    return await Admin.findOne({ id });
+  } else {
+    throw new AppError('Forbidden', httpStatus.FORBIDDEN);
+  }
+};
+
 export const UserService = {
   createStudent,
   createFaculty,
   createAdmin,
+  getMe,
 };
