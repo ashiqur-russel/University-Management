@@ -67,7 +67,11 @@ const createStudent1 = async (studentData: TStudent, password: string) => {
     return data;
   }
 };
-const createStudent = async (payload: TStudent, password: string) => {
+const createStudent = async (
+  file: any,
+  payload: TStudent,
+  password: string,
+) => {
   // create a user object
   const userData: Partial<IUser> = {};
 
@@ -91,8 +95,17 @@ const createStudent = async (payload: TStudent, password: string) => {
     userData.id = await generateStudentId(payload);
 
     //send image to cloudinary
+    const imageName = `${userData.id}_${payload?.name?.firstName}`;
+    const imagePath = file?.path;
 
-    sendImageToCloudinary()
+    const uploadResponse = await sendImageToCloudinary(imageName, imagePath);
+    if (!uploadResponse || !uploadResponse.secure_url) {
+      throw new AppError(
+        'Failed to upload image',
+        httpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    const { secure_url } = uploadResponse;
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session }); // array
@@ -104,6 +117,7 @@ const createStudent = async (payload: TStudent, password: string) => {
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
+    payload.profileImg = secure_url;
 
     // create a student (transaction-2)
 
