@@ -7,10 +7,11 @@ import bcrypt from 'bcrypt';
 import config from '../../config';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { createToken } from './auth.utils';
+import { sendEmail } from '../../utils/sendEmail';
+import { generateResetEmailTemplate } from '../../templates/resetEmailTemplate';
 
 const loginUser = async (payload: TLoginUser) => {
   const { id, password } = payload;
-
   const user = await User.isUserExistsByCustomId(id);
 
   if (!user) {
@@ -153,4 +154,72 @@ const refreshToken = async (token: string) => {
 
 };
 
-export const AuthServices = { loginUser, changePassword, refreshToken };
+const forgetPassword = async (id: string) =>{
+
+  // checking if the user is exist
+  const user = await User.isUserExistsByCustomId(id);
+
+  if (!user) {
+    throw new AppError('This user is not found !', httpStatus.NOT_FOUND);
+  }
+
+  // checking if the user is already deleted
+  const isDeleted = user?.isDeleted;
+
+  if (isDeleted) {
+    throw new AppError('This user is deleted !', httpStatus.FORBIDDEN);
+  }
+
+  // checking if the user is blocked
+  const userStatus = user?.status;
+
+  if (userStatus === 'blocked') {
+    throw new AppError('This user is blocked !', httpStatus.FORBIDDEN);
+  }
+
+  const jwtPayload = { userId: user.id, role: user.role };
+
+    const resetToken = createToken(
+      jwtPayload,
+      config.jwt_access_secret as string,'1m',
+    );
+
+  const resetLink = `http://localhost:3000?id=${user.id}&token=${resetToken}`;
+
+  console.log(resetLink)
+
+    const resetEmailTemmpate = generateResetEmailTemplate(resetLink)
+
+  sendEmail(user.email, resetEmailTemmpate)
+
+
+}
+
+const resetPassword = async (  payload: { id: string; newPassword: string }, token: string) =>{
+
+   // checking if the user is exist
+   const user = await User.isUserExistsByCustomId(payload.id);
+
+   if (!user) {
+     throw new AppError('This user is not found !', httpStatus.NOT_FOUND);
+   }
+ 
+   // checking if the user is already deleted
+   const isDeleted = user?.isDeleted;
+ 
+   if (isDeleted) {
+     throw new AppError('This user is deleted !', httpStatus.FORBIDDEN);
+   }
+ 
+   // checking if the user is blocked
+   const userStatus = user?.status;
+ 
+   if (userStatus === 'blocked') {
+     throw new AppError('This user is blocked !', httpStatus.FORBIDDEN);
+   }
+
+
+
+}
+export const AuthServices = { loginUser, changePassword, refreshToken, forgetPassword, resetPassword };
+
