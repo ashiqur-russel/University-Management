@@ -23,6 +23,7 @@ router.post(
 router.post(
   '/create-faculty',
   AuthGuard(USER_ROLE.admin),
+  pasrseJsonBody,
   validateRequest(createFacultyValidationSchema),
   UserController.createFaculty,
 );
@@ -30,6 +31,7 @@ router.post(
 router.post(
   '/create-admin',
   AuthGuard(USER_ROLE.admin),
+  pasrseJsonBody,
   validateRequest(createAdminValidationSchema),
   UserController.createAdmin,
 );
