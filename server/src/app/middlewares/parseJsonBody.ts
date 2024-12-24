@@ -6,5 +6,6 @@ export const pasrseJsonBody = (
   next: NextFunction,
 ) => {
   req.body = JSON.parse(req.body.data);
+  console.log(req.body);
   next();
 };

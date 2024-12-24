@@ -3,7 +3,6 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/response';
 import { EnrolledCourseServices } from './enrolled-course.service';
 
-
 const createEnrolledCourse = catchAsync(async (req, res) => {
   const userId = req.user.userId;
   const result = await EnrolledCourseServices.createEnrolledCourseIntoDB(
@@ -20,6 +19,5 @@ const createEnrolledCourse = catchAsync(async (req, res) => {
 });
 
 export const EnrolledCourseControllers = {
-    createEnrolledCourse,
-
-  };
+  createEnrolledCourse,
+};
