@@ -8,11 +8,7 @@ import { Student } from '../student/student.model';
 import { generateStudentId } from '../student/student.utils';
 import { IUser } from './user.interface';
 import { User } from './user.model';
-import {
-  generateAdminId,
-  generateFacultyId,
-  generateHashedPassword,
-} from './user.utils';
+import { generateAdminId, generateFacultyId } from './user.utils';
 import { TFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { Admin } from '../admin/admin.model';
@@ -20,53 +16,6 @@ import { USER_ROLE } from './user.constant';
 import httpStatus from 'http-status';
 import { sendImageToCloudinary } from '../../utils/saveImageToCloud';
 
-const createStudent1 = async (studentData: TStudent, password: string) => {
-  const userData: Partial<IUser> = {};
-
-  password = password || (config.default_pass as string);
-
-  userData.id = await generateStudentId(studentData);
-  userData.role = 'student';
-  userData.password = await generateHashedPassword(password);
-
-  const isUserExist = await User.findOne({ id: userData.id });
-
-  if (isUserExist) {
-    throw new AppError('User already exist with the id', 409);
-  }
-
-  // create user
-  const newUser = await User.create(userData);
-
-  const academicSemesterExists = await AcademicSemester.findById({
-    _id: studentData.admissionSemester,
-  });
-
-  if (!academicSemesterExists) {
-    await User.deleteOne({ _id: newUser._id });
-    throw new AppError('Invalid Academic Semester Entered', 403);
-  }
-
-  const academicDepartmentExists = await AcademicDepartment.findById({
-    _id: studentData.academicDepartment,
-  });
-
-  if (!academicDepartmentExists) {
-    await User.deleteOne({ _id: newUser._id });
-    throw new AppError('Invalid Academic Department Entered', 403);
-  }
-
-  //create student
-  if (!isUserExist && Object.keys(newUser).length) {
-    studentData.id = newUser.id;
-    studentData.user = newUser._id;
-
-    const newStudent = await Student.create(studentData);
-
-    const data = { ...newUser, ...newStudent };
-    return data;
-  }
-};
 const createStudent = async (
   file: any,
   payload: TStudent,
@@ -83,9 +32,7 @@ const createStudent = async (
   userData.email = payload.email;
 
   // find academic semester info
-  const admissionSemester = await AcademicSemester.findById(
-    payload.admissionSemester,
-  );
+  await AcademicSemester.findById(payload.admissionSemester);
 
   const session = await mongoose.startSession();
 
@@ -131,7 +78,7 @@ const createStudent = async (
     await session.endSession();
 
     return newStudent;
-  } catch (err) {
+  } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
     throw new Error('Failed to create student');

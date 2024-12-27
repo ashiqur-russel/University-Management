@@ -1,4 +1,4 @@
-import express, { Request, NextFunction, Response, json } from 'express';
+import express from 'express';
 import { UserController } from './user.controller';
 import { createStudentValidationSchema } from '../student/student.validation';
 import validateRequest from '../../utils/validateRequest';
@@ -29,7 +29,7 @@ router.post(
 
 router.post(
   '/create-admin',
-  AuthGuard(USER_ROLE.admin),
+  AuthGuard(USER_ROLE.superadmin),
   pasrseJsonBody,
   validateRequest(createAdminValidationSchema),
   UserController.createAdmin,

@@ -29,7 +29,7 @@ const userSchema = new Schema<IUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ['student', 'faculty', 'admin', 'super-admin'],
+      enum: ['student', 'faculty', 'admin', 'superadmin'],
       required: true,
     },
     status: {
