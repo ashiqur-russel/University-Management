@@ -9,7 +9,7 @@ const router = Router();
 
 router.post(
   '/create-semester',
-  AuthGuard(USER_ROLE.admin),
+  AuthGuard(USER_ROLE.admin, USER_ROLE.superAdmin),
   validateRequest(
     AcademicSemesterValidations.createAcdemicSemesterValidationSchema,
   ),

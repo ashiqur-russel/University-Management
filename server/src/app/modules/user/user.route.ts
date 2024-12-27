@@ -29,7 +29,7 @@ router.post(
 
 router.post(
   '/create-admin',
-  AuthGuard(USER_ROLE.superadmin),
+  AuthGuard(USER_ROLE.superAdmin),
   pasrseJsonBody,
   validateRequest(createAdminValidationSchema),
   UserController.createAdmin,

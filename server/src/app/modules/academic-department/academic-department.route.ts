@@ -7,14 +7,19 @@ import { USER_ROLE } from '../user/user.constant';
 
 const router = Router();
 
-router.get('/', AcademicDepartmentController.getAllAcademicDepartments);
+router.get(
+  '/',
+  AuthGuard(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.superAdmin),
+  AcademicDepartmentController.getAllAcademicDepartments,
+);
 router.get(
   '/:departmentId',
+  AuthGuard(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.superAdmin),
   AcademicDepartmentController.getSingleAcademicDepartment,
 );
 router.post(
-  '/create-academic-department',
-  AuthGuard(USER_ROLE.admin),
+  '/  ',
+  AuthGuard(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.superAdmin),
 
   validateRequest(
     AcademicDepartmentValidation.createAcademicDepartmentValidationSchema,

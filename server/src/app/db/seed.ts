@@ -6,14 +6,14 @@ const superAdmin = {
   email: config.super_admin_email,
   password: config.super_admin_password,
   needsPasswordChange: true,
-  role: 'super-admin',
+  role: 'superAdmin',
   status: 'in-progress',
   isDeleted: false,
 };
 
 export const seedSuperAdmin = async () => {
   try {
-    const isSuperAdminExist = await User.findOne({ role: 'super-admin' });
+    const isSuperAdminExist = await User.findOne({ role: 'superAdmin' });
 
     if (!isSuperAdminExist) {
       await User.create(superAdmin);
