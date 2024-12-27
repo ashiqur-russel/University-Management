@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post(
   '/create-student',
-  AuthGuard(USER_ROLE.admin),
+  AuthGuard(USER_ROLE.admin, USER_ROLE.superAdmin),
   upload.single('file'),
   pasrseJsonBody,
   validateRequest(createStudentValidationSchema),

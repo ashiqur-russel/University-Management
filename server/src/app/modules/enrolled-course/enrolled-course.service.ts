@@ -14,7 +14,6 @@ const createEnrolledCourseIntoDB = async (
   userId: string,
   payload: TEnrolledCourse,
 ) => {
-  console.log(payload);
 
   /**
    * TODO::

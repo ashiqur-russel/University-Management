@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { TAcademicDepartment } from './academic-department.interface';
 import { AcademicFaculty } from '../academic-faculty/academic-faculty.model';
 
@@ -11,7 +11,7 @@ const AcademicDepartemntSchema = new Schema<TAcademicDepartment>(
     },
 
     faculty: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'AcademicFaculty',
       required: true,
     },

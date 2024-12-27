@@ -5,7 +5,6 @@ import catchAsync from '../../utils/catchAsync';
 
 const getSingleStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
-  console.log(studentId);
   const result = await StudentService.getSingleStudentFromDB(studentId);
   sendResponse(res, {
     success: true,
@@ -16,7 +15,6 @@ const getSingleStudent = catchAsync(async (req, res) => {
 });
 
 const getAllStudents = catchAsync(async (req, res) => {
-  console.log(req.query);
   const result = await StudentService.getAllStudentsFromDB(req.query);
   sendResponse(res, {
     success: true,

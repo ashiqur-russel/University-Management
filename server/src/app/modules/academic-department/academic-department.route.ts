@@ -18,7 +18,7 @@ router.get(
   AcademicDepartmentController.getSingleAcademicDepartment,
 );
 router.post(
-  '/  ',
+  '/create-academic-department',
   AuthGuard(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.superAdmin),
 
   validateRequest(

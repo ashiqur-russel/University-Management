@@ -34,6 +34,19 @@ const createStudent = async (
   // find academic semester info
   await AcademicSemester.findById(payload.admissionSemester);
 
+  // find academic department
+  const academicDepartment = await AcademicDepartment.findById({
+    _id: payload.academicDepartment,
+  });
+
+  if (!academicDepartment || !academicDepartment.faculty) {
+    throw new AppError(
+      'Academic department or faculty not found',
+      httpStatus.NOT_FOUND,
+    );
+  }
+  payload.academicFaculty = academicDepartment.faculty;
+
   const session = await mongoose.startSession();
 
   try {

@@ -1,7 +1,6 @@
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import config from '../config';
-import { cwd } from 'process';
 import fs from 'fs';
 
 export const sendImageToCloudinary = async (
