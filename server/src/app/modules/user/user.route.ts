@@ -23,6 +23,8 @@ router.post(
 router.post(
   '/create-faculty',
   AuthGuard(USER_ROLE.admin),
+  upload.single('file'),
+  pasrseJsonBody,
   validateRequest(createFacultyValidationSchema),
   UserController.createFaculty,
 );
@@ -30,6 +32,7 @@ router.post(
 router.post(
   '/create-admin',
   AuthGuard(USER_ROLE.superAdmin),
+  upload.single('file'),
   pasrseJsonBody,
   validateRequest(createAdminValidationSchema),
   UserController.createAdmin,

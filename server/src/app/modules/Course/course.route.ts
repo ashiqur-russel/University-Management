@@ -47,6 +47,17 @@ router.delete(
 );
 
 router.get(
+  '/:courseId/get-faculties',
+  AuthGuard(
+    USER_ROLE.superAdmin,
+    USER_ROLE.admin,
+    USER_ROLE.faculty,
+    USER_ROLE.student,
+  ),
+  CourseControllers.getFacultiesWithCourse,
+);
+
+router.get(
   '/',
   AuthGuard(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
   CourseControllers.getAllCourses,
