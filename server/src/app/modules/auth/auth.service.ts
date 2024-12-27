@@ -1,5 +1,4 @@
 import AppError from '../../errors/appError';
-import { Admin } from '../admin/admin.model';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';

@@ -14,7 +14,6 @@ const createEnrolledCourseIntoDB = async (
   userId: string,
   payload: TEnrolledCourse,
 ) => {
-
   /**
    * TODO::
    * Step1: Check if the offered cousres is exists

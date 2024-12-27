@@ -166,7 +166,7 @@ const studentSchema = new Schema<TStudent>(
       required: [true, 'Local guardian information is required'],
     },
 
-    profileImg: { type: String },
+    profileImg: { type: String, default: null },
 
     isDeleted: {
       type: Boolean,

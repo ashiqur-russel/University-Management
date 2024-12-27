@@ -15,15 +15,15 @@ import { Admin } from '../admin/admin.model';
 import { USER_ROLE } from './user.constant';
 import httpStatus from 'http-status';
 import { sendImageToCloudinary } from '../../utils/saveImageToCloud';
+import { TAdmin } from '../admin/admin.interface';
 
 const createStudent = async (
-  file: any,
   payload: TStudent,
   password: string,
+  file?: any,
 ) => {
   // create a user object
   const userData: Partial<IUser> = {};
-
   //if password is not given , use deafult password
   userData.password = password || (config.default_pass as string);
 
@@ -55,23 +55,12 @@ const createStudent = async (
     userData.id = await generateStudentId(payload);
 
     //send image to cloudinary
-    const imageName = `${userData.id}_${payload?.name?.firstName}`;
-    const imagePath = file?.path;
-
-    const uploadImageResponse = await sendImageToCloudinary(
-      imageName,
-      imagePath,
-    );
-    if (!uploadImageResponse || !uploadImageResponse.secure_url) {
-      throw new AppError(
-        'Failed to upload image',
-        httpStatus.INTERNAL_SERVER_ERROR,
-      );
+    if (file) {
+      await uploadImage(payload, userData, file);
     }
-    const { secure_url } = uploadImageResponse;
 
     // create a user (transaction-1)
-    const newUser = await User.create([userData], { session }); // array
+    const newUser = await User.create([userData], { session });
 
     //create a student
     if (!newUser.length) {
@@ -79,8 +68,7 @@ const createStudent = async (
     }
     // set id , _id as user
     payload.id = newUser[0].id;
-    payload.user = newUser[0]._id; //reference _id
-    payload.profileImg = secure_url;
+    payload.user = newUser[0]._id;
 
     // create a student (transaction-2)
 
@@ -102,9 +90,9 @@ const createStudent = async (
 };
 
 const createFaculty = async (
-  file: any,
   payload: TFaculty,
   password: string,
+  file?: any,
 ) => {
   // create a user object
   const userData: Partial<IUser> = {};
@@ -131,22 +119,11 @@ const createFaculty = async (
     session.startTransaction();
     //set  generated id
     userData.id = await generateFacultyId();
+
     //send image to cloudinary
-    const imageName = `${userData.id}_${payload?.name?.firstName}`;
-    const imagePath = file?.path;
-
-    const uploadImageResponse = await sendImageToCloudinary(
-      imageName,
-      imagePath,
-    );
-
-    if (!uploadImageResponse || !uploadImageResponse.secure_url) {
-      throw new AppError(
-        'Failed to upload image',
-        httpStatus.INTERNAL_SERVER_ERROR,
-      );
+    if (file) {
+      await uploadImage(payload, userData, file);
     }
-    const { secure_url } = uploadImageResponse;
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session }); // array
@@ -158,7 +135,6 @@ const createFaculty = async (
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
-    payload.profileImg = secure_url;
 
     // create a student (transaction-2)
 
@@ -179,7 +155,7 @@ const createFaculty = async (
   }
 };
 
-const createAdmin = async (file: any, password: string, payload: TFaculty) => {
+const createAdmin = async (password: string, payload: TFaculty, file?: any) => {
   // create a user object
   const userData: Partial<IUser> = {};
 
@@ -196,23 +172,11 @@ const createAdmin = async (file: any, password: string, payload: TFaculty) => {
     session.startTransaction();
     //set  generated id
     userData.id = await generateAdminId();
+
     //send image to cloudinary
-    const imageName = `${userData.id}_${payload?.name?.firstName}`;
-    const imagePath = file?.path;
-
-    const uploadImageResponse = await sendImageToCloudinary(
-      imageName,
-      imagePath,
-    );
-
-    if (!uploadImageResponse || !uploadImageResponse.secure_url) {
-      throw new AppError(
-        'Failed to upload image',
-        httpStatus.INTERNAL_SERVER_ERROR,
-      );
+    if (file) {
+      await uploadImage(payload, userData, file);
     }
-    const { secure_url } = uploadImageResponse;
-
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session });
 
@@ -223,7 +187,6 @@ const createAdmin = async (file: any, password: string, payload: TFaculty) => {
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
-    payload.profileImg = secure_url;
 
     // create a admin (transaction-2)
     const newAdmin = await Admin.create([payload], { session });
@@ -253,6 +216,26 @@ const getMe = async (id: string, role: string) => {
   } else {
     throw new AppError('Forbidden', httpStatus.FORBIDDEN);
   }
+};
+
+const uploadImage = async (
+  payload: TStudent | TFaculty | TAdmin,
+  userData: Partial<IUser>,
+  file?: any,
+) => {
+  const imageName = `${userData.id}_${payload?.name?.firstName}`;
+  const imagePath = file?.path;
+
+  const uploadImageResponse = await sendImageToCloudinary(imageName, imagePath);
+
+  if (!uploadImageResponse || !uploadImageResponse.secure_url) {
+    throw new AppError(
+      'Failed to upload image',
+      httpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
+  const { secure_url } = uploadImageResponse || null;
+  payload.profileImg = secure_url;
 };
 
 export const UserService = {
