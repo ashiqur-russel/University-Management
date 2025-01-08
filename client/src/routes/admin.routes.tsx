@@ -5,11 +5,6 @@ import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
 import { ReactNode } from "react";
 
-type TRoute = {
-  key: string;
-  label: ReactNode;
-};
-
 type TSideBarItems = {
   key: string;
   label: ReactNode;
