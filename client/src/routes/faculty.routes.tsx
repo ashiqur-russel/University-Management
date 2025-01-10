@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 
 import { ReactNode } from "react";
-import FacultyDashboard from "../pages/faculty/facultyDashboard";
 import OfferedCourse from "../pages/faculty/OfferedCourse";
+import FacultyDashboard from "../pages/faculty/FacultyDashboard";
 
 type TSideBarItems = {
   key: string;
