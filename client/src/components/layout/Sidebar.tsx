@@ -6,7 +6,7 @@ import { facultyPaths } from "../../routes/faculty.routes";
 import { studentPaths } from "../../routes/student.routes";
 
 const Sidebar = () => {
-  const role = "student";
+  const role = "admin";
   let sidebarItems;
 
   const userRole = {

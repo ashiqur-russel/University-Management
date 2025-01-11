@@ -10,7 +10,9 @@ const MainLayout = () => {
       <Sidebar />
       <Layout>
         <Header style={{ padding: 0 }} />
-        <Content style={{ margin: "0", backgroundColor: "black" }}>
+        <Content
+          style={{ margin: "0", backgroundColor: "black", color: "gray" }}
+        >
           <div
             style={{
               padding: 24,
