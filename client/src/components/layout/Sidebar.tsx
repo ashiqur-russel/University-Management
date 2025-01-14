@@ -1,4 +1,4 @@
-import { Menu } from "antd";
+import { Button, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { sidebarItemsGenerate } from "../../utils/sidebarItemGenerate";
 import { adminPaths } from "../../routes/admin.routes";
