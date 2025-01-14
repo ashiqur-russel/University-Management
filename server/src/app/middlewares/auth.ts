@@ -15,10 +15,16 @@ const AuthGuard = (...requiredRoles: TUserRole[]) => {
       throw new AppError('Unauthorized', httpStatus.UNAUTHORIZED);
     }
 
-    const decodedToken = jwt.verify(
-      authorizationHeader,
-      config.jwt_access_secret as string,
-    ) as JwtPayload;
+    let decodedToken;
+
+    try {
+      decodedToken = jwt.verify(
+        authorizationHeader,
+        config.jwt_access_secret as string,
+      ) as JwtPayload;
+    } catch {
+      throw new AppError('Unauthorized', httpStatus.UNAUTHORIZED);
+    }
 
     const { userId, role, iat } = decodedToken;
 
