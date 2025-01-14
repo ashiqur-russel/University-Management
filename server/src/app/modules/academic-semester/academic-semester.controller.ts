@@ -1,9 +1,12 @@
-import { AcademicSemesterService } from './academic-semester.service';
 import sendResponse from '../../utils/response';
 import catchAsync from '../../utils/catchAsync';
+import httpStatus from 'http-status';
+import { AcademicSemesterServices } from './academic-semester.service';
 
 const createAcademicSemester = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterService.createAcademicSemester(req.body);
+  const result = await AcademicSemesterServices.createAcademicSemester(
+    req.body,
+  );
 
   sendResponse(res, {
     success: true,
@@ -12,4 +15,52 @@ const createAcademicSemester = catchAsync(async (req, res) => {
     message: 'Academic Semester Created Successfully',
   });
 });
-export const AcademicSemesterController = { createAcademicSemester };
+
+const getAllAcademicSemesters = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterServices.getAllAcademicSemestersFromDB(
+    req.query,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic semesters are retrieved successfully',
+    data: result.result,
+  });
+});
+
+const getSingleAcademicSemester = catchAsync(async (req, res) => {
+  const { semesterId } = req.params;
+
+  const result =
+    await AcademicSemesterServices.getSingleAcademicSemesterFromDB(semesterId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic semester is retrieved succesfully',
+    data: result,
+  });
+});
+
+const updateAcademicSemester = catchAsync(async (req, res) => {
+  const { semesterId } = req.params;
+  const result = await AcademicSemesterServices.updateAcademicSemesterIntoDB(
+    semesterId,
+    req.body,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic semester is retrieved succesfully',
+    data: result,
+  });
+});
+
+export const AcademicSemesterController = {
+  createAcademicSemester,
+  getAllAcademicSemesters,
+  getSingleAcademicSemester,
+  updateAcademicSemester,
+};

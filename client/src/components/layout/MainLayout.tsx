@@ -3,13 +3,15 @@ import { Content, Header } from "antd/es/layout/layout";
 
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { logOut } from "../../redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
   const logOutHandler = () => {
     dispatch(logOut());
+    toast.success("Logged out!");
   };
   return (
     <Layout style={{ height: "100vh" }}>
