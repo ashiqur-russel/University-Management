@@ -1,5 +1,6 @@
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { Controller } from "react-hook-form";
+import "../../styles/FormStyles.css";
 
 type TInputProps = {
   type: string;
@@ -10,16 +11,17 @@ type TInputProps = {
 const FormInput = ({ type, name, label }: TInputProps) => {
   return (
     <div style={{ marginBottom: "10px" }}>
-      {label ? label : null}
       <Controller
         name={name}
         render={({ field }) => (
-          <Input
-            {...field}
-            type={type}
-            id={name}
-            style={{ border: "1px solid gray" }}
-          />
+          <Form.Item label={label} className="custom-form-item">
+            <Input
+              {...field}
+              type={type}
+              id={name}
+              style={{ border: "1px solid gray", color: "white" }}
+            />
+          </Form.Item>
         )}
       />
     </div>

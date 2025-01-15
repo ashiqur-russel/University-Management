@@ -37,8 +37,12 @@ const Login = () => {
       toast.success("Logged in Successfully", { id: toastId, duration: 200 });
       dispatch(setUser({ user: user, token: result.data.accessToken }));
       navigate(`/${user.role}/dashboard`);
-    } catch {
-      toast.error("Something went wrong!", { id: toastId, duration: 2000 });
+    } catch (error: any) {
+      if (error?.status === 404) {
+        toast.error("User not found!", { id: toastId, duration: 2000 });
+      } else {
+        toast.error("Something went wrong!", { id: toastId, duration: 2000 });
+      }
     }
   };
 

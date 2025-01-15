@@ -7,6 +7,7 @@ import {
 } from "react-hook-form";
 import classNames from "classnames";
 import "../../styles/FormStyles.css";
+import { Form } from "antd";
 type TFormConfig = {
   defaultValues?: Record<string, any>;
 };
@@ -25,8 +26,9 @@ const AppForm = ({
 }: TFromProps) => {
   const formConfig: TFormConfig = {};
 
-  const formStyle = classNames("", {
+  const formStyle = classNames("basic-all", {
     "login-form": formName === "loginForm",
+    "create-semester-form": formName === "creteSemesterForm",
   });
 
   if (defaultValues) {
@@ -37,9 +39,13 @@ const AppForm = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className={formStyle}>
+      <Form
+        layout="vertical"
+        onFinish={methods.handleSubmit(onSubmit)}
+        className={formStyle}
+      >
         {children}
-      </form>
+      </Form>
     </FormProvider>
   );
 };
