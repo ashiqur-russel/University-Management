@@ -1,7 +1,13 @@
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
-const FormInput = ({ type, name, label }) => {
+type TInputProps = {
+  type: string;
+  name: string;
+  label?: string;
+};
+
+const FormInput = ({ type, name, label }: TInputProps) => {
   return (
     <div style={{ marginBottom: "10px" }}>
       {label ? label : null}
