@@ -44,7 +44,11 @@ const Login = () => {
 
   return (
     <Row justify="center" align="middle" style={{ height: "100vh" }}>
-      <AppForm onSubmit={onSubmit} defaultValues={defaultValues}>
+      <AppForm
+        onSubmit={onSubmit}
+        defaultValues={defaultValues}
+        formName="loginForm"
+      >
         <FormInput type="id" name="id" label="ID:" />
 
         <FormInput type="password" name="password" label="PASSWORD:" />

@@ -5,7 +5,8 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-
+import classNames from "classnames";
+import "../../styles/FormStyles.css";
 type TFormConfig = {
   defaultValues?: Record<string, any>;
 };
@@ -13,10 +14,20 @@ type TFormConfig = {
 type TFromProps = {
   onSubmit: SubmitHandler<FieldValues>;
   children: ReactNode;
+  formName?: string;
 } & TFormConfig;
 
-const AppForm = ({ onSubmit, children, defaultValues }: TFromProps) => {
+const AppForm = ({
+  onSubmit,
+  children,
+  formName,
+  defaultValues,
+}: TFromProps) => {
   const formConfig: TFormConfig = {};
+
+  const formStyle = classNames("", {
+    "login-form": formName === "loginForm",
+  });
 
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
@@ -26,7 +37,9 @@ const AppForm = ({ onSubmit, children, defaultValues }: TFromProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+      <form onSubmit={methods.handleSubmit(onSubmit)} className={formStyle}>
+        {children}
+      </form>
     </FormProvider>
   );
 };
