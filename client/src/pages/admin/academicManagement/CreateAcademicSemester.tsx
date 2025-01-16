@@ -4,8 +4,10 @@ import { Button, Col, Flex } from "antd";
 import FormSelect from "../../../components/form/FormSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement";
+import { toast } from "sonner";
 
-export const academicSemesterSchema = z.object({
+const academicSemesterSchema = z.object({
   name: z.string({ required_error: "Please select a Name" }),
   year: z.string({ required_error: "Please select a Year" }),
   startMonth: z.string({ required_error: "Please select a Start Month" }),
@@ -45,8 +47,10 @@ const monthOptions = monthNames.map((item) => ({
 }));
 
 const CreateAcademicSemester = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const [addAcademicSemester] = useAddAcademicSemesterMutation();
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const name = semesterOptions[Number(data?.name) - 1]?.label;
+    const toastId = toast.loading("Creating...");
 
     const semesterData = {
       name,
@@ -56,7 +60,17 @@ const CreateAcademicSemester = () => {
       endMonth: data.endMonth,
     };
 
-    console.log(semesterData);
+    try {
+      const res = await addAcademicSemester(semesterData);
+      console.log(res);
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success("Semester created", { id: toastId });
+      }
+    } catch {
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
 
   return (
