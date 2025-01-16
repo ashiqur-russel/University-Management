@@ -2,7 +2,15 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import AppForm from "../../../components/form/AppForm";
 import { Button, Col, Flex } from "antd";
 import FormSelect from "../../../components/form/FormSelect";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
+export const academicSemesterSchema = z.object({
+  name: z.string({ required_error: "Please select a Name" }),
+  year: z.string({ required_error: "Please select a Year" }),
+  startMonth: z.string({ required_error: "Please select a Start Month" }),
+  endMonth: z.string({ required_error: "Please select a End Month" }),
+});
 const currentYear = new Date().getFullYear();
 
 const yearOptions = [0, 1, 2, 3, 4].map((number) => ({
@@ -54,7 +62,11 @@ const CreateAcademicSemester = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <AppForm onSubmit={onSubmit} formName="creteSemesterForm">
+        <AppForm
+          onSubmit={onSubmit}
+          formName="creteSemesterForm"
+          resolver={zodResolver(academicSemesterSchema)}
+        >
           <FormSelect label="Name" name="name" options={semesterOptions} />
           <FormSelect label="Year" name="year" options={yearOptions} />
 

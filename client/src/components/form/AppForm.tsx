@@ -10,6 +10,7 @@ import "../../styles/FormStyles.css";
 import { Form } from "antd";
 type TFormConfig = {
   defaultValues?: Record<string, any>;
+  resolver?: any;
 };
 
 type TFromProps = {
@@ -23,6 +24,7 @@ const AppForm = ({
   children,
   formName,
   defaultValues,
+  resolver,
 }: TFromProps) => {
   const formConfig: TFormConfig = {};
 
@@ -33,6 +35,10 @@ const AppForm = ({
 
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
+  }
+
+  if (resolver) {
+    formConfig["resolver"] = resolver;
   }
 
   const methods = useForm(formConfig);
