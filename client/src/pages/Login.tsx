@@ -24,26 +24,17 @@ const Login = () => {
   const [login] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
-    const toastId = toast.loading("Logging in...");
     const userInfo = {
       id: data.id,
       password: data.password,
     };
-    try {
-      const result = await login(userInfo).unwrap();
-      const token = result.data.accessToken;
-      const user = verifyToken(token) as TUser;
-      toast.success("Logged in Successfully", { id: toastId, duration: 200 });
-      dispatch(setUser({ user: user, token: result.data.accessToken }));
-      navigate(`/${user.role}/dashboard`);
-    } catch (error: any) {
-      if (error?.status === 404) {
-        toast.error("User not found!", { id: toastId, duration: 2000 });
-      } else {
-        toast.error("Something went wrong!", { id: toastId, duration: 2000 });
-      }
-    }
+
+    const result = await login(userInfo).unwrap();
+    const token = result.data.accessToken;
+    const user = verifyToken(token) as TUser;
+    toast.success("Logged in Successfully", { duration: 200 });
+    dispatch(setUser({ user: user, token: result.data.accessToken }));
+    navigate(`/${user.role}/dashboard`);
   };
 
   return (

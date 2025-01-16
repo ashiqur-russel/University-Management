@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement";
 import { toast } from "sonner";
+import { TResponse } from "../../../types";
 
 const academicSemesterSchema = z.object({
   name: z.string({ required_error: "Please select a Name" }),
@@ -61,8 +62,7 @@ const CreateAcademicSemester = () => {
     };
 
     try {
-      const res = await addAcademicSemester(semesterData);
-      console.log(res);
+      const res = (await addAcademicSemester(semesterData)) as TResponse<any>;
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
       } else {
