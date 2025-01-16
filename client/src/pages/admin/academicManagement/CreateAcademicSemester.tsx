@@ -1,20 +1,40 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import AppForm from "../../../components/form/AppForm";
-import FormInput from "../../../components/form/FormInput";
 import { Button, Col, Flex } from "antd";
 import FormSelect from "../../../components/form/FormSelect";
 
+const semesterOptions = [
+  { value: "01", label: "Autumn" },
+  { value: "02", label: "Summer" },
+  { value: "03", label: "Fall" },
+];
+
 const CreateAcademicSemester = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    const name = semesterOptions[Number(data?.name) - 1]?.label;
+
+    const semesterData = {
+      name,
+      code: data.name,
+    };
+
+    console.log(semesterData);
   };
 
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
         <AppForm onSubmit={onSubmit} formName="creteSemesterForm">
-          <FormInput type="text" name="name" label="Name" />
-          <FormSelect label="Name" />
+          <FormSelect label="Name" name="name" options={semesterOptions} />
+          <FormSelect label="Year" name="name" options={semesterOptions} />
+
+          <FormSelect
+            label="Start Month"
+            name="name"
+            options={semesterOptions}
+          />
+          <FormSelect label="End Month" name="name" options={semesterOptions} />
+
           <Button htmlType="submit">Submit</Button>
         </AppForm>
       </Col>
