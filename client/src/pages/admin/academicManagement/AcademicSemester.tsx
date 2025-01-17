@@ -106,14 +106,12 @@ const AcademicSemester = () => {
   };
 
   return (
-    <>
-      <Table
-        loading={isFetching}
-        columns={columns}
-        dataSource={tableData}
-        onChange={onChange}
-      />
-    </>
+    <Table
+      loading={isFetching}
+      columns={columns}
+      dataSource={tableData}
+      onChange={onChange}
+    />
   );
 };
 
